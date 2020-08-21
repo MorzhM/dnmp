@@ -227,13 +227,6 @@ if [[ -z "${EXTENSIONS##*,gd,*}" ]]; then
         libjpeg-turbo-dev
 fi
 
-if [[ -z "${EXTENSIONS##*,yaml,*}" ]]; then
-    echo "---------- Install yaml ----------"
-    apk add --no-cache yaml-dev
-    printf "\n" | pecl install yaml
-    docker-php-ext-enable yaml
-fi
-
 if [[ -z "${EXTENSIONS##*,intl,*}" ]]; then
     echo "---------- Install intl ----------"
     apk add --no-cache icu-dev
@@ -369,29 +362,6 @@ if [[ -z "${EXTENSIONS##*,igbinary,*}" ]]; then
 fi
 
 
-if [[ -z "${EXTENSIONS##*,ssh2,*}" ]]; then
-    isPhpVersionGreaterOrEqual 7 0
-    if [[ "$?" = "1" ]]; then
-        echo "---------- Install ssh2 ----------"
-        printf "\n" | apk add libssh2-dev
-        pecl install ssh2-1.1.2
-        docker-php-ext-enable ssh2
-    else
-        echo "ssh2 requires PHP >= 7.0.0, installed version is ${PHP_VERSION}"
-    fi
-fi
-
-if [[ -z "${EXTENSIONS##*,protobuf,*}" ]]; then
-    isPhpVersionGreaterOrEqual 7 0
-    if [[ "$?" = "1" ]]; then
-        echo "---------- Install protobuf ----------"
-        printf "\n" | pecl install protobuf
-        docker-php-ext-enable protobuf
-    else
-        echo "yar requires PHP >= 7.0.0, installed version is ${PHP_VERSION}"
-    fi
-fi
-
 if [[ -z "${EXTENSIONS##*,yac,*}" ]]; then
     isPhpVersionGreaterOrEqual 7 0
     if [[ "$?" = "1" ]]; then
@@ -414,7 +384,6 @@ if [[ -z "${EXTENSIONS##*,yar,*}" ]]; then
     fi
 
 fi
-
 
 
 if [[ -z "${EXTENSIONS##*,yaconf,*}" ]]; then
@@ -468,12 +437,9 @@ if [[ -z "${EXTENSIONS##*,sqlsrv,*}" ]]; then
 fi
 
 if [[ -z "${EXTENSIONS##*,mcrypt,*}" ]]; then
-    isPhpVersionGreaterOrEqual 7 0
+    isPhpVersionGreaterOrEqual 7 2
     if [[ "$?" = "1" ]]; then
-        echo "---------- Install mcrypt ----------"
-        apk add --no-cache libmcrypt-dev libmcrypt re2c
-        printf "\n" |pecl install mcrypt
-        docker-php-ext-enable mcrypt
+        echo "---------- mcrypt was REMOVED from PHP 7.2.0 ----------"
     else
         echo "---------- Install mcrypt ----------"
         apk add --no-cache libmcrypt-dev \
